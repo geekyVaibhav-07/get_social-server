@@ -29,6 +29,7 @@
         "object-curly-spacing": ["error", "always"],
         "indent": ["error", 4],
         "prefer-const": "warn",
+        "semi": ["error", "always"],
         "no-dupe-else-if": "error",
         "brace-style": [2, "1tbs"]
     }

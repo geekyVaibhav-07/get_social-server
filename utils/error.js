@@ -25,4 +25,4 @@ const asyncCatch = (fn) => {
 module.exports = {
     AppError,
     asyncCatch
-}
+};

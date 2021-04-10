@@ -4,13 +4,13 @@ const removeUndefindes = (object = {}) => {
         if (!result[key]) {
             delete result[key];
         }
-    })
+    });
     return result;
-}
+};
 
 const filterSensitiveData = (dataSet = [], filterSet = []) => {
     if (dataSet.length !== filterSet.length) {
-        return false
+        return false;
     }
     for (let i = 0; i < dataSet.length; i++) {
         const data = dataSet[i];
@@ -23,9 +23,9 @@ const filterSensitiveData = (dataSet = [], filterSet = []) => {
     }
 
     return dataSet;
-}
+};
 
 module.exports = {
     removeUndefindes,
     filterSensitiveData
-}
+};

@@ -29,5 +29,5 @@ module.exports = {
     errorConstants,
     userConstants,
     successConstants
-}
+};
     
