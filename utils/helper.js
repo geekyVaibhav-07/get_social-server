@@ -15,7 +15,7 @@ const filterSensitiveData = (dataSet = [], filterSet = []) => {
     for (let i = 0; i < dataSet.length; i++) {
         const data = dataSet[i];
         const filter = filterSet[i];
-        for (k in filter) {
+        for (const k in filter) {
             if (filter[k]) {
                 delete data[k];
             }

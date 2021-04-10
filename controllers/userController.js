@@ -26,8 +26,7 @@ const userExist = async (email) => {
             }
         }
         return {};
-    }
-    catch {
+    } catch {
         return {};
     }
 };
@@ -174,15 +173,13 @@ const getAllUsers = asyncCatch(async (req, res, next) => {
     const count = Number.parseInt(requestedCount);
     if (isNaN(count) || count > 1000 || count < 1 ) {
         pagination.limit = 10;
-    }
-    else {
+    } else {
         pagination.limit =count
     }
     const page = (Number.parseInt(requestedPage) - 1) * Number.parseInt(count);
     if (isNaN(page) || page < 0) {
         pagination.offset = 0;
-    }
-    else {
+    } else {
         pagination.offset = page;
     }
     const response = await userModel.getAllUsers(pagination);

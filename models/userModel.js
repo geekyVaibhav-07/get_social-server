@@ -26,8 +26,7 @@ const login = async ({ email, candidatePassword }) => {
     if (status) {
         delete result[0].password;
         return result[0];
-    }
-    else {
+    } else {
         return false;
     }
 };

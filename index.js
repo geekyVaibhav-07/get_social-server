@@ -19,7 +19,7 @@ process.on('uncaughtException', (err) => {
     });
 });
 
-startServer = () => {
+const startServer = () => {
     const port = process.env.PORT || 5000;
     server = app.listen(port, () => {
         console.log(`Server started at ${port} !!!!`);
@@ -32,8 +32,7 @@ db.connect(function (error) {
     if (error) {
         console.log(error);
         console.log('unable to connect to  database !!!');
-    }
-    else {
+    } else {
         server = startServer();
     }
 });
