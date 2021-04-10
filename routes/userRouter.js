@@ -12,7 +12,7 @@ const setIdInParam = (req, res, next) => {
 const flagSensitiveData = (req,res,next) => {
     req.params.sensitiveData = true;
     next();
-}
+};
 
 router
     .route('/register')

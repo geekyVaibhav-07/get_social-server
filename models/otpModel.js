@@ -22,8 +22,8 @@ const registerOTP = async ({ email, otp }) => {
     }
     const sql = `INSERT INTO email_verification_otp SET email='${email}', otp='${otp}' ON DUPLICATE KEY UPDATE otp='${otp}'`;
     const result = await query(sql);
-    return result
-}
+    return result;
+};
 
 const deleteEmailOtp = async ({ email }) => {
     if (!email) {
@@ -31,12 +31,12 @@ const deleteEmailOtp = async ({ email }) => {
     }
     const sql = `DELETE FROM email_verification_otp WHERE email='${email}'`;
     const result = await query(sql);
-    return result
-}
+    return result;
+};
 
 module.exports = {
     getEmailVerificationOTP,
     ifExistInEmailVerificationOtp,
     registerOTP,
     deleteEmailOtp
-}
+};

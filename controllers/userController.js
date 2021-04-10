@@ -11,19 +11,19 @@ const { removeUndefindes, filterSensitiveData } = require('./../utils/helper');
 const userExist = async (email) => {
     try {
         if (!email) {
-            return {}
+            return {};
         }
         const ifExistInEmailVerificationOtp = await otpModel.ifExistInEmailVerificationOtp({ email });
         if (ifExistInEmailVerificationOtp[0]) {
             return {
                 otp_sent_at: ifExistInEmailVerificationOtp[0].otp_sent_at
-            }
+            };
         }
         const ifExistInUser = await userModel.ifExistInUser({ email });
         if (ifExistInUser[0]) {
             return {
                 active: true
-            }
+            };
         }
         return {};
     } catch {
@@ -37,26 +37,26 @@ const createUser = asyncCatch(async (req = {}, res = {}, next) => {
         const message = {
             type: errorConstants.INSUFFICIENT_DATA
         };
-        return next(new AppError( message, 400))
+        return next(new AppError( message, 400));
     }
     if ( !validateEmail(email) ) {
         const message = {
             type: errorConstants.EMAIL_INVALID
-        }
+        };
         return next(new AppError(message, 400));
     }
     const ifUserExist  = await userModel.ifExistInUser({ email });
     if(ifUserExist.length > 0) {
         const message = {
             type: userConstants.ALREADY_REGISTERED
-        }
+        };
         return next(new AppError(message, 400));
     } 
     const result = await otpModel.getEmailVerificationOTP(email);
     if (!Array.isArray(result) || !result.length > 0) {
         const message = {
             type: errorConstants.OTP_NOT_SENT
-        }
+        };
         return next(new AppError(message, 400));
     }
     const { otp: sent_otp, otp_sent_at } = result[0];
@@ -64,14 +64,14 @@ const createUser = asyncCatch(async (req = {}, res = {}, next) => {
     if ((timeNow - new Date(otp_sent_at).getTime())/1000 > 300) {
         const message = {
             type: errorConstants.OTP_EXPIRED
-        }
+        };
         return next(new AppError(message, 400));
     }
     const verified =  await bcrypt.compare(otp, sent_otp);
     if (!verified) {
         const message = {
             type: errorConstants.OTP_NOT_MATCH
-        }
+        };
         return next(new AppError(message, 400));
     }
     const id = uniqid('123-');
@@ -79,7 +79,7 @@ const createUser = asyncCatch(async (req = {}, res = {}, next) => {
     const encrypted_password = await bcrypt.hash(password, 12);
     const response = await userModel.createUserInDB({ id, email, password: encrypted_password });
     if (response) {
-        const deleteFfromEmailVerificationOtp = await otpModel.deleteEmailOtp({ email })
+        const deleteFfromEmailVerificationOtp = await otpModel.deleteEmailOtp({ email });
     }
     res.status(201).json({
         status: '1',
@@ -87,20 +87,20 @@ const createUser = asyncCatch(async (req = {}, res = {}, next) => {
             type: successConstants.REGISTERED
         }
     });
-})
+});
 
 const sendEmailVerificationOTP = asyncCatch(async (req = {}, res = {}, next) => {
     const { body: { email } = {} }  =req;
     if (!email) {
         const message = {
             type: errorConstants.INSUFFICIENT_DATA
-        }
-        return next(AppError(message, 400))
+        };
+        return next(AppError(message, 400));
     }
     if ( !validateEmail(email) ) {
         const message = {
             type: errorConstants.EMAIL_INVALID
-        }
+        };
         return next(new AppError(message, 400));
     }
     const ifUserExist = await userExist(email);
@@ -108,14 +108,14 @@ const sendEmailVerificationOTP = asyncCatch(async (req = {}, res = {}, next) => 
     if (active) {
         const message = {
             type: userConstants.ALREADY_REGISTERED
-        }
+        };
         return next(new AppError(message, 400));
     }
     const timeNow = Date.now();
     if ((timeNow - new Date(otp_sent_at).getTime())/1000 < 300) {
         const message = {
             type: successConstants.OTP_ALREADY_SENT
-        }
+        };
         return next(new AppError(message, 400));
     }
     const otp = await bcrypt.hash( OtpHandler.createOTP(), 12);
@@ -134,14 +134,14 @@ const login = asyncCatch(async (req = {}, res, next) => {
     if (!email || !password) {
         const message = {
             type: errorConstants.INSUFFICIENT_DATA
-        }
+        };
         return next(new AppError(message, 400));
     }
     const response = await userModel.login({ email, candidatePassword: password });
     if (!response) {
         const message = {
             type: errorConstants.EMAIL_PASSWORD_WRONG
-        }
+        };
         return next(new AppError(message, 400));
     }
     req.user = response;
@@ -153,7 +153,7 @@ const updatedUserDetails = asyncCatch(async (req = {}, res, next) => {
     if (!id) {
         const message = {
             type: errorConstants.INSUFFICIENT_DATA
-        }
+        };
         return next(new AppError(message, 400));
     }
     const updateData = removeUndefindes({ id, first_name, last_name, middle_name, phone_number, country_code, address_1, address_2, city, zip, country, dob, geneder });
@@ -174,7 +174,7 @@ const getAllUsers = asyncCatch(async (req, res, next) => {
     if (isNaN(count) || count > 1000 || count < 1 ) {
         pagination.limit = 10;
     } else {
-        pagination.limit =count
+        pagination.limit =count;
     }
     const page = (Number.parseInt(requestedPage) - 1) * Number.parseInt(count);
     if (isNaN(page) || page < 0) {
@@ -209,7 +209,7 @@ const getUserById = asyncCatch(async (req, res, next) => {
     if (response.length === 0) {
         const message = {
             type: errorConstants.NO_USER_FOUND
-        }
+        };
         return next(new AppError(message, 400));
     }
     //the second parameter  in filterSensitiveData corresponds to { private: true } --to be implemented properly
@@ -245,4 +245,4 @@ module.exports = {
     getUserById,
     deleteUser,
     getAllUsers
-}
+};

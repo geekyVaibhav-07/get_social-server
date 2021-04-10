@@ -34,14 +34,14 @@ const login = async ({ email, candidatePassword }) => {
 const updateUserDetails = async ( data = {}) => {
     const { id } = data;
     if (!id) {
-        return false
+        return false;
     }
     const updateData = { ...data };
     delete updateData.id;
     const sql = 'INSERT INTO user_detail SET ? ON DUPLICATE KEY UPDATE ?';
     const result = await query(sql, [ data, updateData ]);
     return result;
-}
+};
 
 const getUser = async (field, value) => {
     const sql = `SELECT * from user, user_detail WHERE user.${field}='${value}' && user.id=user_detail.id`;
@@ -50,7 +50,7 @@ const getUser = async (field, value) => {
         if (user.password) {
             delete user.password;
         }
-    })
+    });
     return result;
 };
 
@@ -65,7 +65,7 @@ const getAllUsers = async ({ offset = 0, limit = 10 }) => {
         if (user.password) {
             delete user.password;
         }
-    })
+    });
     return result;
 };
 
@@ -86,4 +86,4 @@ module.exports = {
     getUser,
     getUserById,
     deleteUser,
-}
+};

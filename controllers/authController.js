@@ -41,7 +41,7 @@ const protect = asyncCatch(async (req, res, next) => {
     if (!token) {
         const message = {
             type: errorConstants.NOT_AUTHENTICATED
-        }
+        };
         return next(new AppError(message, 401));
     }
     const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
@@ -68,4 +68,4 @@ const protect = asyncCatch(async (req, res, next) => {
 module.exports = {
     authToken: createSendToken,
     protect
-}
+};

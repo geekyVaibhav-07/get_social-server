@@ -9,10 +9,10 @@ class OtpHandler {
     }
     static async sendOtp(otp, email){
 
-        return true
+        return true;
     }
 }
 
 module.exports = {
     OtpHandler
-}
+};
