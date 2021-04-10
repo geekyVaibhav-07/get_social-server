@@ -18,8 +18,7 @@ const prodError = (err, res) => {
             status: err.status,
             message: err.message,
         });
-    }
-    else {
+    } else {
         res.status(500).json({
             status: 'error',
             message: 'Something went wrong !!!',
@@ -33,8 +32,7 @@ const globalErrorController = (err, req, res, next) => {
 
     if (process.env.NODE_ENV === 'development') {
         devError(err, res);
-    }
-    else if (process.env.NODE_ENV === 'production') {
+    } else if (process.env.NODE_ENV === 'production') {
         prodError(err, res);
     }
 };

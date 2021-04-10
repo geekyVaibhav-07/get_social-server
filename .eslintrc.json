@@ -7,7 +7,13 @@
         "ecmaVersion": 12,
         "sourceType": "module"
     },
+    "globals": {
+        "require": true,
+        "process": true,
+        "module": true
+    },
     "rules": {
+        "no-undef": "error",
         "linebreak-style": ["off", "windows"],
         "no-template-curly-in-string": "error",
         "quotes": ["error", "single"],
@@ -24,6 +30,6 @@
         "indent": ["error", 4],
         "prefer-const": "warn",
         "no-dupe-else-if": "error",
-        "brace-style": [2, "stroustrup", { "allowSingleLine": true }]
+        "brace-style": [2, "1tbs"]
     }
 }
